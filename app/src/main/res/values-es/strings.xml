@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Actividad perruna</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">Primer fragmento</string>
+    <string name="second_fragment_label">Segundo fragmento</string>
+    <string name="next">Siguiente</string>
+    <string name="previous">Anterior</string>
+    <string name="cancel">Cancelar</string>
+    <string name="low">Poco</string>
+    <string name="medium">Medio</string>
+    <string name="high">Mucho</string>
+    <string name="walk">Paseo</string>
+    <string name="piss">Pis</string>
+    <string name="poop">Caca</string>
+
+    <string name="piss_registered">Registrado pis</string>
+    <string name="poop_registered">Registrada cada</string>
+    <string name="walk_registered">Paseo registrado</string>
+    <string name="select_amount_of_piss">Selecciona la cantidad de pis</string>
+    <string name="activities">Actividades</string>
+    <string name="share_csv">Compartir como CSV</string>
+    <string name="activity">Actividad</string>
+    <string name="date">Fecha</string>
+    <string name="activity_log">Listado de actividades</string>
+    <string name="activity_log_csv">El listado de actividades va adjunto como CSV</string>
+    <string name="writing_permission_required_to_share_files">El permiso de escritura en almacenamiento es necesario para compartir archivos.</string>
+</resources>

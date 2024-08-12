@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Dog Activity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="cancel">Cancel</string>
+    <string name="low">Low</string>
+    <string name="medium">Medium</string>
+    <string name="high">High</string>
+    <string name="walk">Walk</string>
+    <string name="piss">Piss</string>
+    <string name="poop">Poop</string>
+    <string name="piss_registered">Piss registered</string>
+    <string name="poop_registered">Poop registered</string>
+    <string name="walk_registered">Walk registered</string>
+    <string name="select_amount_of_piss">Select amount of piss</string>
+    <string name="activities">Activities</string>
+    <string name="share_csv">Share as CSV</string>
+    <string name="activity">Activity</string>
+    <string name="date">Date</string>
+    <string name="activity_log">Activity log</string>
+    <string name="activity_log_csv">The activity log is attached as CSV</string>
+    <string name="writing_permission_required_to_share_files">The storage permission for writing is required in order to share files.</string>
+</resources>

@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="false"
+    android:layout_alignParentEnd="false"
+    android:layout_alignParentBottom="false"
+    android:layout_gravity="center|clip_vertical|center_horizontal|center_vertical">
+
+    <android.widget.GridLayout
+
+        android:id="@+id/main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_horizontal|center_vertical"
+        android:columnCount="2"
+        android:columnOrderPreserved="false"
+        android:rowCount="2">
+
+        <ImageButton
+            android:id="@+id/button_walk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:src="@drawable/ic_walk"
+            tools:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/button_piss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:src="@drawable/ic_piss"
+            tools:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/button_poop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:src="@drawable/ic_poop"
+            tools:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/button_show_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:src="@drawable/ic_book"
+            tools:visibility="visible" />
+
+
+    </android.widget.GridLayout>
+</LinearLayout>
