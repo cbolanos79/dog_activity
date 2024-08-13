@@ -17,14 +17,15 @@ class DogActivityDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DA
         private const val TABLE_NAME = "activities"
         private const val COLUMN_ID = "id"
         private const val COLUMN_ACTION = "action"
-        private const val COLUMN_TIMESTAMP = "timestamp"
         private const val COLUMN_DATA = "data"
+        private const val COLUMN_TIMESTAMP = "timestamp"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable = "CREATE TABLE $TABLE_NAME (" +
                 "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "$COLUMN_ACTION TEXT, " +
+                "$COLUMN_DATA TEXT, " +
                 "$COLUMN_TIMESTAMP DATETIME DEFAULT CURRENT_TIMESTAMP)"
         db?.execSQL(createTable)
     }
