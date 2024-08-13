@@ -33,7 +33,6 @@ class DogActivityDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DA
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
 
         if (oldVersion < 1) {
-            db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
             onCreate(db)
         }
 
