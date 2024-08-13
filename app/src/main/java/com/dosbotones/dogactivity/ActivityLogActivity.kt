@@ -10,6 +10,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.widget.Button
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -21,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.io.File
 import java.io.FileWriter
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class ActivityLogActivity : AppCompatActivity() {
@@ -40,56 +44,58 @@ class ActivityLogActivity : AppCompatActivity() {
         supportActionBar?.title = getResources().getString(R.string.activities)
         toolbar.setTitleTextColor(Color.WHITE)
 
-        dbHelper = DogActivityDatabaseHelper(this)
+        val tableLayout: TableLayout = findViewById(R.id.tableLayout)
 
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView_activities)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
+        val dbHelper = DogActivityDatabaseHelper(this)
         val activities = dbHelper.getAllActivities()
+        val targetFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
 
-        val buttonShare: Button = findViewById(R.id.button_share)
+        for (activity in activities) {
+            val tableRow = TableRow(this)
 
-        for (it in activities) {
-            val parts = it.split(";")
-            val activity = when (parts[0].lowercase()) {
-                "walk" -> getResources().getString(R.string.walk)
-                "pee" -> getResources().getString(R.string.piss)
-                "poop" -> getResources().getString(R.string.poop)
-                "accident" -> getResources().getString(R.string.accident)
-                else -> parts[0]
+            val textViewDate = TextView(this)
+            val textViewActivity = TextView(this)
+            val textViewData = TextView(this)
+
+            textViewDate.text = targetFormat.format(activity.timestamp)
+            textViewActivity.text = activity.action
+            textViewData.text = when (activity.data?.lowercase()) {
+                "low" -> getResources().getString(R.string.low)
+                "medium" -> getResources().getString(R.string.medium)
+                "high" -> getResources().getString(R.string.high)
+                else -> activity.data
             }
+            textViewDate.setPadding(8, 8, 8, 8)
+            textViewActivity.setPadding(8, 8, 8, 8)
+            textViewData.setPadding(8, 8, 8, 8)
 
-            val timestamp = parts[1]
-            val data: String
+            tableRow.addView(textViewDate)
+            tableRow.addView(textViewActivity)
+            tableRow.addView(textViewData)
 
-            if (parts[0].lowercase() == "pee") {
-                data = when (parts[2].lowercase()) {
-                    "low" -> getResources().getString(R.string.low)
-                    "medium" -> getResources().getString(R.string.medium)
-                    "high" -> getResources().getString(R.string.high)
-                    else -> parts[2]
-                }
-            } else {
-                data = parts[2]
-            }
-
-            // Format timestamp
-            val originalFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            val targetFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
-            val date = originalFormat.parse(timestamp)
-            val formattedDate = targetFormat.format(date)
-
-            this.activityLogs.add(ActivityLog(formattedDate, activity, data))
+            tableLayout.addView(tableRow)
         }
 
-        recyclerView.adapter = ActivityLogAdapter(this.activityLogs)
-
-        buttonShare.setOnClickListener {
-            checkAndRequestPermissions()
-            shareActivityLogAsCSV()
+        val buttonShareCsv: Button = findViewById(R.id.button_share)
+        buttonShareCsv.setOnClickListener {
+            //shareActivityLogAsCSV()
         }
     }
 
+    // Handle back button
+    override fun onSupportNavigateUp(): Boolean {
+        // Finish and goes back
+        finish()
+        return true
+    }
+
+    private fun formatTimestamp(timestamp: Long): String {
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+        return sdf.format(timestamp)
+    }
+
+
+    /*
     private fun shareActivityLogAsCSV() {
         val csvFile = createCSVFile()
         if (csvFile != null) {
@@ -141,12 +147,7 @@ class ActivityLogActivity : AppCompatActivity() {
         }
     }
 
-    // Handle back button
-    override fun onSupportNavigateUp(): Boolean {
-        // Finish and goes back
-        finish()
-        return true
-    }
+
 
     private fun checkAndRequestPermissions() {
         val permission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -170,4 +171,6 @@ class ActivityLogActivity : AppCompatActivity() {
             }
         }
     }
+
+    */
 }
