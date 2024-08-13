@@ -58,7 +58,14 @@ class ActivityLogActivity : AppCompatActivity() {
             val textViewData = TextView(this)
 
             textViewDate.text = targetFormat.format(activity.timestamp)
-            textViewActivity.text = activity.action
+            textViewActivity.text = when(activity.action) {
+                "walk" -> getResources().getString(R.string.walk)
+                "piss" -> getResources().getString(R.string.piss)
+                "pee" -> getResources().getString(R.string.piss)
+                "poop" -> getResources().getString(R.string.poop)
+                "accident" -> getResources().getString(R.string.accident)
+                else -> activity.action
+            }
             textViewData.text = when (activity.data?.lowercase()) {
                 "low" -> getResources().getString(R.string.low)
                 "medium" -> getResources().getString(R.string.medium)
