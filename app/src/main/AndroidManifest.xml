@@ -23,10 +23,6 @@
             android:exported="false"
             android:theme="@style/Theme.DogActivity" />
         <activity
-            android:name=".PeeActivity"
-            android:exported="false"
-            android:theme="@style/Theme.DogActivity" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
