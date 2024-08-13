@@ -23,4 +23,7 @@
     <string name="activity_log">Activity log</string>
     <string name="activity_log_csv">The activity log is attached as CSV</string>
     <string name="writing_permission_required_to_share_files">The storage permission for writing is required in order to share files.</string>
+    <string name="register_accident">Register accident</string>
+    <string name="accident_registered">Accident registered</string>
+    <string name="describe_the_accident">Describe the accident</string>
 </resources>

@@ -45,6 +45,15 @@
             tools:visibility="visible" />
 
         <ImageButton
+            android:id="@+id/button_accident"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:src="@drawable/ic_accident"
+            tools:visibility="visible" />
+
+        <ImageButton
             android:id="@+id/button_show_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

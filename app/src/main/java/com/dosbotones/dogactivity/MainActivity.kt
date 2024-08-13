@@ -65,6 +65,14 @@ class MainActivity : AppCompatActivity() {
             dbHelper.addActivity("poop")
         }
 
+        // Configurar el botón "Accident"
+        val buttonAccident: ImageButton = findViewById(R.id.button_accident)
+        buttonAccident.setOnClickListener {
+            val dialog = AccidentDialogFragment()
+            dialog.show(supportFragmentManager, "AccidentDialogFragment")
+        }
+
+
         buttonShowLog.setOnClickListener {
             val intent = Intent(this, ActivityLogActivity::class.java)
             startActivity(intent)
