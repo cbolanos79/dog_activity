@@ -22,8 +22,8 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class ActivityLogActivity : AppCompatActivity() {
-    private lateinit var dbHelper: DogActivityDatabaseHelper
-    private val REQUEST_CODE_WRITE_STORAGE = 1
+    private val dbHelper = DogActivityDatabaseHelper(this)
+    private val targetFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +38,7 @@ class ActivityLogActivity : AppCompatActivity() {
 
         val tableLayout: TableLayout = findViewById(R.id.tableLayout)
 
-        val dbHelper = DogActivityDatabaseHelper(this)
-        val activities = dbHelper.getAllActivities()
-        val targetFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+        val activities = this.dbHelper.getAllActivities()
 
         for (activity in activities) {
             val tableRow = TableRow(this)
@@ -65,8 +63,10 @@ class ActivityLogActivity : AppCompatActivity() {
         }
 
         val buttonShareCsv: Button = findViewById(R.id.button_share)
+
+        // Share CSV button
         buttonShareCsv.setOnClickListener {
-            checkAndRequestPermissions()
+            shareActivityLogAsCSV()
         }
     }
 
@@ -120,51 +120,27 @@ class ActivityLogActivity : AppCompatActivity() {
     }
 
     private fun createCSVFile(): File? {
-        return try {
-            val csvFile = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "dog_activity_log.csv")
+        val csvFile: File
+        val activities = dbHelper.getAllActivities()
+
+        try {
+            csvFile = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "dog_activity_log.csv")
             val fileWriter = FileWriter(csvFile)
 
             // Write CSV header
             fileWriter.append("${R.string.date},${R.string.activity},${R.string.data}\n")
 
-            val targetFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
-
             // Write a line for each activity
-            val activities = dbHelper.getAllActivities()
             for (activity in activities) {
                 fileWriter.append("${targetFormat.format(activity.timestamp)},${actionName(activity.action)},${dataName(activity.data.toString())}\n")
             }
 
             fileWriter.flush()
             fileWriter.close()
-
-            csvFile
         } catch (e: Exception) {
             e.printStackTrace()
-            null
+            return null
         }
-    }
-
-    private fun checkAndRequestPermissions() {
-        val permission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(permission), REQUEST_CODE_WRITE_STORAGE)
-        } else {
-            shareActivityLogAsCSV() // Permission already granted
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            REQUEST_CODE_WRITE_STORAGE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission granted
-                } else {
-                    // Permiso denegado
-                    Toast.makeText(this, R.string.writing_permission_required_to_share_files, Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+        return csvFile
     }
 }
