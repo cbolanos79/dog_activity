@@ -128,7 +128,7 @@ class ActivityLogActivity : AppCompatActivity() {
             val fileWriter = FileWriter(csvFile)
 
             // Write CSV header
-            fileWriter.append("${R.string.date},${R.string.activity},${R.string.data}\n")
+            fileWriter.append("${getResources().getString(R.string.date)},${getResources().getString(R.string.activity)},${getResources().getString(R.string.data)}\n")
 
             // Write a line for each activity
             for (activity in activities) {
