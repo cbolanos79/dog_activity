@@ -21,6 +21,7 @@
     <string name="share_csv">Compartir como CSV</string>
     <string name="activity">Actividad</string>
     <string name="date">Fecha</string>
+    <string name="data">Información</string>
     <string name="activity_log">Listado de actividades</string>
     <string name="activity_log_csv">El listado de actividades va adjunto como CSV</string>
     <string name="writing_permission_required_to_share_files">El permiso de escritura en almacenamiento es necesario para compartir archivos.</string>

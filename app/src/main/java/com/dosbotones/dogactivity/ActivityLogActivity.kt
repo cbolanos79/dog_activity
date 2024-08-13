@@ -16,15 +16,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import java.io.File
 import java.io.FileWriter
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 class ActivityLogActivity : AppCompatActivity() {
+    private lateinit var dbHelper: DogActivityDatabaseHelper
+    private val REQUEST_CODE_WRITE_STORAGE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,20 +50,9 @@ class ActivityLogActivity : AppCompatActivity() {
             val textViewData = TextView(this)
 
             textViewDate.text = targetFormat.format(activity.timestamp)
-            textViewActivity.text = when(activity.action) {
-                "walk" -> getResources().getString(R.string.walk)
-                "piss" -> getResources().getString(R.string.piss)
-                "pee" -> getResources().getString(R.string.piss)
-                "poop" -> getResources().getString(R.string.poop)
-                "accident" -> getResources().getString(R.string.accident)
-                else -> activity.action
-            }
-            textViewData.text = when (activity.data?.lowercase()) {
-                "low" -> getResources().getString(R.string.low)
-                "medium" -> getResources().getString(R.string.medium)
-                "high" -> getResources().getString(R.string.high)
-                else -> activity.data
-            }
+            textViewActivity.text = actionName(activity.action)
+            textViewData.text = dataName(activity.data.toString())
+
             textViewDate.setPadding(8, 8, 8, 8)
             textViewActivity.setPadding(8, 8, 8, 8)
             textViewData.setPadding(8, 8, 8, 8)
@@ -78,7 +66,7 @@ class ActivityLogActivity : AppCompatActivity() {
 
         val buttonShareCsv: Button = findViewById(R.id.button_share)
         buttonShareCsv.setOnClickListener {
-            //shareActivityLogAsCSV()
+            checkAndRequestPermissions()
         }
     }
 
@@ -94,8 +82,28 @@ class ActivityLogActivity : AppCompatActivity() {
         return sdf.format(timestamp)
     }
 
+    private fun actionName(action: String): String {
+        val name = when(action) {
+            "walk" -> getResources().getString(R.string.walk)
+            "piss" -> getResources().getString(R.string.piss)
+            "pee" -> getResources().getString(R.string.piss)
+            "poop" -> getResources().getString(R.string.poop)
+            "accident" -> getResources().getString(R.string.accident)
+            else -> action
+        }
+        return name
+    }
 
-    /*
+    private fun dataName(data: String): String {
+        val name = when (data.lowercase()) {
+            "low" -> getResources().getString(R.string.low)
+            "medium" -> getResources().getString(R.string.medium)
+            "high" -> getResources().getString(R.string.high)
+            else -> data
+        }
+        return name
+    }
+
     private fun shareActivityLogAsCSV() {
         val csvFile = createCSVFile()
         if (csvFile != null) {
@@ -117,24 +125,14 @@ class ActivityLogActivity : AppCompatActivity() {
             val fileWriter = FileWriter(csvFile)
 
             // Write CSV header
-            fileWriter.append("${R.string.date},${R.string.activity}\n")
+            fileWriter.append("${R.string.date},${R.string.activity},${R.string.data}\n")
+
+            val targetFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
 
             // Write a line for each activity
             val activities = dbHelper.getAllActivities()
-            activities.forEach {
-                val parts = it.split(";")
-                val activity = parts[0]
-                val timestamp = parts[1]
-                val data:String = when (parts[2]) {
-                    "low" -> R.string.low.toString()
-                    "medium" -> R.string.medium.toString()
-                    "high" -> R.string.high.toString()
-                    else -> ""
-                }
-
-                // Format date
-                val date = android.text.format.DateFormat.getDateFormat(getApplicationContext()).format(timestamp)
-                fileWriter.append("${date},${activity},${data}\n")
+            for (activity in activities) {
+                fileWriter.append("${targetFormat.format(activity.timestamp)},${actionName(activity.action)},${dataName(activity.data.toString())}\n")
             }
 
             fileWriter.flush()
@@ -146,8 +144,6 @@ class ActivityLogActivity : AppCompatActivity() {
             null
         }
     }
-
-
 
     private fun checkAndRequestPermissions() {
         val permission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
