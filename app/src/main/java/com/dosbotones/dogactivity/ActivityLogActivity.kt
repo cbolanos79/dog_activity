@@ -1,7 +1,5 @@
 package com.dosbotones.dogactivity
 
-import ActivityLog
-import ActivityLogAdapter
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -28,10 +26,6 @@ import java.util.Date
 import java.util.Locale
 
 class ActivityLogActivity : AppCompatActivity() {
-
-    private lateinit var dbHelper: DogActivityDatabaseHelper
-    private val REQUEST_CODE_WRITE_STORAGE = 1
-    private val activityLogs = mutableListOf<ActivityLog>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
