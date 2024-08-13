@@ -55,6 +55,7 @@ class ActivityLogActivity : AppCompatActivity() {
                 "walk" -> getResources().getString(R.string.walk)
                 "pee" -> getResources().getString(R.string.piss)
                 "poop" -> getResources().getString(R.string.poop)
+                "accident" -> getResources().getString(R.string.accident)
                 else -> parts[0]
             }
 
